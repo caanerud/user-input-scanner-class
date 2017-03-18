@@ -1,5 +1,8 @@
 package com.theironyard;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * The MenuService class is used to prompt users for data and to collect that
  * input. It is also responsible for validating that input. For example, if we
@@ -18,6 +21,12 @@ public class MenuService {
      * the class by its constructor.
      */
     // todo: create private Scanner property
+
+
+
+private static Scanner userInput;
+
+
 
 
     /**
@@ -41,6 +50,12 @@ public class MenuService {
      * @param scanner An instance of Scanner.
      */
     // todo: create MenuService constructor
+            public MenuService(Scanner scanner){
+
+                userInput = scanner;
+
+            }
+
 
 
 
@@ -58,6 +73,11 @@ public class MenuService {
      * @return a double value which is a weight.
      */
     // todo: create a method named promptForWeight() that returns a double
+
+    public double promptForWeight() {
+
+
+
 
 
         /*
@@ -77,7 +97,7 @@ public class MenuService {
          */
         // todo: prompt the user with "Enter a weight: "
 
-
+        System.out.println("Enter a weight:");
 
         /*
             Now we need to see if the user inputs a numeric value. We can check
@@ -97,6 +117,8 @@ public class MenuService {
          */
         // todo: write if statement that checks if the user input a double
 
+        if (userInput.hasNextDouble()) {
+
 
             /*
                 If hasNextDouble() has returned true then the user has entered a
@@ -105,9 +127,12 @@ public class MenuService {
                 by invoking the Scanner class' nextDouble() method.
              */
             // todo: return the double the user entered
-
+            return userInput.nextDouble();
+        }
 
         // todo: write else statement
+        else {
+
 
 
             /*
@@ -123,6 +148,8 @@ public class MenuService {
                 value and print that as a part of an error message.
              */
             // todo: read the bad input and store it in a variable
+
+            String badValue = userInput.nextLine();
 
             /*
                 We know we've received bad input from the user and we've read it
@@ -140,6 +167,9 @@ public class MenuService {
                 use println() or explicitly end the string with a '\n'.
              */
             // todo: print error message reading "XYZ is not a number" followed by a single linebreak
+
+            System.out.println(badValue + " is not a number");
+
 
             /*
                 Now that we've told our users what's wrong with their input. We
@@ -159,7 +189,7 @@ public class MenuService {
                 }
 
                 // return valid data
-
+/*
                 But, we already have a nice, clean method that can prompt a user
                 for a weight and validate the data: promptForWeight()! Why don't
                 we just return the result from calling promptForWeight()?
@@ -194,7 +224,9 @@ public class MenuService {
             // todo: return the results from calling promptForWeight()
 
 
-
+            return promptForWeight();
+        }
+    }
 
     /**
      * Create a method called promptForFromUnit(). This method accepts an
@@ -212,6 +244,10 @@ public class MenuService {
      * @return A Weight enum value corresponding to the user's selected unit
      */
     // todo: implement promptForFromUnit() method
+
+    public Weight promptForFromUnit(ArrayList<String> units) {
+
+
 
         /*
             We need to prompt the user for the unit they are converting from.
@@ -234,7 +270,7 @@ public class MenuService {
          */
         // todo: prompt the user for the unit to convert from
 
-
+        System.out.println("Select the unit to convert from " + units + ": ");
 
         /*
             We can safely assume that any value the user provides will be a
@@ -249,7 +285,7 @@ public class MenuService {
          */
         // todo: read the next line of input using the next() method and save it in a variable
 
-
+        String weightInput = userInput.next();
 
         /*
             Now we need to validate the input the user provided is valid.
@@ -273,6 +309,11 @@ public class MenuService {
          */
         // todo: write if statement that checks if the user's input is not a valid unit
 
+
+        if (!units.contains(weightInput)) {
+
+
+
             /*
                 If the user's input is not a valid unit them we need to print a
                 an error message. The message should read:
@@ -284,6 +325,11 @@ public class MenuService {
             // todo: print error message reading "Please choose a valid unit to convert from." followed by a single linebreak
 
 
+            System.out.println("Please choose a valid unit to convert from.");
+
+
+
+
             /*
                 As with the promptForWeight() method above, we can recursively
                 invoke this method until the user inputs a valid value. In other
@@ -293,8 +339,16 @@ public class MenuService {
              */
             // todo: return the result of calling promptForFromUnit() again
 
+            return promptForFromUnit(units);
+        }
 
-            // todo: write else statement
+
+        // todo: write else statement
+
+        else {
+
+
+
 
             /*
                 If the user's input was valid we need to convert it to a valid
@@ -311,9 +365,9 @@ public class MenuService {
              */
             // todo: return the Weight enum value corresponding to the unit the user typed in
 
-
-
-
+            return Weight.valueOf(weightInput.toUpperCase());
+        }
+    }
     /**
      * Create a method named promptForToUnit(). This method works exactly the
      * same as the promptForFromUnit() method, except that its prompts read:
@@ -334,7 +388,25 @@ public class MenuService {
      */
     // todo: implement promptForToUnit() method
 
+public Weight promptForToUnit(ArrayList<String> units) {
 
+
+    System.out.println("Select the unit to convert to " + units + ": ");
+
+    String weightInput = userInput.next();
+
+    if (!units.contains(weightInput)) {
+
+        System.out.println("Please choose a valid unit to convert to.");
+
+        return promptForToUnit(units);
+
+    } else {
+
+            return Weight.valueOf(weightInput.toUpperCase());
+
+    }
+}
 
     /**
      * Create a method named printAnswer(). It should accept arguments for the
@@ -363,5 +435,10 @@ public class MenuService {
      */
     // todo: implement printAnswer() method
 
+
+    public void printAnswer(double number, Weight from, double converted, Weight to) {
+
+        System.out.println(number + " " + from.toString().toLowerCase() + "s is " + converted + " " + to.toString().toLowerCase() + "s");
+    }
 
 }
