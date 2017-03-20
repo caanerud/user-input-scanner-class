@@ -365,7 +365,7 @@ private static Scanner userInput;
              */
             // todo: return the Weight enum value corresponding to the unit the user typed in
 
-            return Weight.valueOf(weightInput.toUpperCase());
+            return Weight.valueOf(weightInput.toUpperCase().replaceAll("_", " "));
         }
     }
     /**
@@ -403,7 +403,7 @@ public Weight promptForToUnit(ArrayList<String> units) {
 
     } else {
 
-            return Weight.valueOf(weightInput.toUpperCase());
+            return Weight.valueOf(weightInput.toUpperCase().replaceAll("_", " "));
 
     }
 }
